@@ -61,6 +61,7 @@ The `formatter:` options are
 The `transform:` options are
 
 * `:cloud_watch` _(default)_ - Transforms telemetry keys, replacing dots with dashes to support AWS CloudWatch Log Metrics filters.
+* `:logfmt` - Transforms telemetry keys, prepending `sample#` for [L2Met][l2met] consumption.
 * `:passthrough` -  A pass-through transform which returns the telemetry `Hash` unaltered.
 
 ### Log target
@@ -83,6 +84,7 @@ This target also has configurable `formatter:` and `transform:` options.
 The [possible options are the same as for the `IOTarget`](#options), but the defaults are different.
 The `LogTarget` defaults to `formatter: :logfmt`, and `transform: :passthrough`.
 
+[l2met]:  https://github.com/ryandotsmith/l2met "l2met - Logs to metrics"
 [logfmt]: https://brandur.org/logfmt "logfmt - Structured log format"
 [logger]: https://rubyapi.org/o/logger "Ruby's Logger, from the stdlib"
 

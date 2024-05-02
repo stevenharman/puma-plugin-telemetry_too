@@ -4,6 +4,7 @@ require_relative '../formatters/json_formatter'
 require_relative '../formatters/logfmt_formatter'
 require_relative '../formatters/passthrough_formatter'
 require_relative '../transforms/cloud_watch_transform'
+require_relative '../transforms/l2met_transform'
 require_relative '../transforms/passthrough_transform'
 
 module Puma
@@ -34,6 +35,7 @@ module Puma
 
           TRANSFORMS = {
             cloud_watch: Transforms::CloudWatchTranform,
+            l2met: Transforms::L2metTransform,
             passthrough: Transforms::PassthroughTransform
           }.freeze
           private_constant :TRANSFORMS
