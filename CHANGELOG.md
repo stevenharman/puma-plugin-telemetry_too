@@ -8,21 +8,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
-- Updated gems in the lockfile
-
-### Added
-- Check for support for 'ubuntu-24.04'
-- Check for support for Ruby 3.4
-
-### Dropped
-- Check for support for 'ubuntu-20.04'
-- Check for support for Ruby 2.6 and 2.7
-
+- Add new `LogTarget`
+- Introduce new `formatter:` options: `:json`, `:logfmt`, and `:noop`
+- Introduce new `transform:` options: `:cloud_watch`, `:l2met`, and `:noop`
 
 ## [1.1.4]
 
-### Changed
-- Updated gems in the lockfile
+### Added
+- Support for 'ubuntu-24.04'
+- Support for Ruby 3.4
+
+### Dropped
+- Support for 'ubuntu-20.04'
+- Support for Ruby 2.6 and 2.7
 
 ## [1.1.3]
 
