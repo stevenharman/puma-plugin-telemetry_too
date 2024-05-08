@@ -105,9 +105,11 @@ module Puma
         end
 
         it 'logs socket telemetry' do
-          # Remove once https://github.com/babbel/puma-plugin-telemetry/pull/23 is merged
+          # These structs are platform specific, and not available on macOS,
+          # for example. If they're undefined, then we cannot capture socket
+          # telemetry. We'll skip in that case.
           unless defined?(Socket::SOL_TCP) && defined?(Socket::TCP_INFO)
-            skip("Socket::SOL_TCP not defined on #{RUBY_PLATFORM}")
+            skip("Socket::SOL_TCP and/or Socket::TCP_INFO not defined on #{RUBY_PLATFORM}")
           end
 
           threads = Array.new(2) { make_request }
@@ -128,7 +130,7 @@ module Puma
           possible_lines = ['queue.backlog=1 sockets.backlog=5',
                             'queue.backlog=0 sockets.backlog=6']
 
-          expect(possible_lines.include?(line)).to eq(true)
+          expect(possible_lines).to include(line)
 
           total = line.split.sum { |kv| kv.split('=').last.to_i }
           expect(total).to eq 6
