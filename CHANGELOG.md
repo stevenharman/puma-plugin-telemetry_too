@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Introduce new `formatter:` options: `:json` and `:passthrough`
 - Introduce new `transform:` options: `:cloud_watch` and `:passthrough`
+- Introduce new `LogTarget` for logging metrics to any `::Logger` compatible logger
 
 ## [1.1.4] 2025-05-29
 
