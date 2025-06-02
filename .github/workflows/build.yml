@@ -53,7 +53,7 @@ jobs:
     needs:
       - build
 
-    # if: github.event_name == 'create' && startsWith(github.ref, 'refs/tags/v')
+    if: github.event_name == 'create' && startsWith(github.ref, 'refs/tags/v')
 
     steps:
       - uses: actions/checkout@v4
@@ -75,7 +75,6 @@ jobs:
           ---
           :rubygems_api_key: ${{ env.PUMA_RUBYGEMS_TOKEN  }}
           EOF
-          cat /home/runner/.gem/credentials
           chmod 0600 /home/runner/.gem/credentials
 
       - name: Publish gem
