@@ -65,7 +65,7 @@ jobs:
           role-to-assume: ${{ vars.AWS_IAM_ROLE_ARN }}
       - uses: aws-actions/aws-secretsmanager-get-secrets@v2
         with:
-          secret-ids: ${{ vars.RUBYGEMS_SECRET_ARN }}
+          secret-ids: repositories.puma-plugin-telemetry_rubygems # RUBYGEMS_TOKEN, ${{ vars.RUBYGEMS_SECRET_ARN }}
           parse-json-secrets: true
 
       - name: Create credentials
@@ -73,7 +73,7 @@ jobs:
           mkdir -p ~/.gem
           cat << EOF > ~/.gem/credentials
           ---
-          :rubygems_api_key: ${{ env.REPOSITORIES_PUMA_PLUGIN_TELEMETRY_RUBYGEMS_RUBYGEMS_TOKEN }}
+          :rubygems_api_key: ${{ env.RUBYGEMS_TOKEN  }}
           EOF
           cat /home/runner/.gem/credentials
           chmod 0600 /home/runner/.gem/credentials
