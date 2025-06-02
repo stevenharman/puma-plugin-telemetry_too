@@ -45,6 +45,9 @@ jobs:
           echo "build complete"
 
   release:
+    permissions:
+      contents: write
+      id-token: write
     runs-on: ubuntu-24.04
 
     needs:
@@ -56,12 +59,21 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
 
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ vars.AWS_REGION }}
+          role-to-assume: ${{ vars.AWS_IAM_ROLE_ARN }}
+      - uses: aws-actions/aws-secretsmanager-get-secrets@v2
+        with:
+          secret-ids: PUMA, ${{ vars.RUBYGEMS_SECRET_ARN }}
+          parse-json-secrets: true
+
       - name: Create credentials
         run: |
           mkdir -p ~/.gem
           cat << EOF > ~/.gem/credentials
           ---
-          :rubygems_api_key: ${{ secrets.RUBYGEMS_TOKEN }}
+          :rubygems_api_key: ${{ env.PUMA_RUBYGEMS_TOKEN  }}
           EOF
           chmod 0600 /home/runner/.gem/credentials
 
