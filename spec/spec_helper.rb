@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'bundler/setup'
-require 'puma/plugin/telemetry'
+require 'puma/plugin/telemetry_too'
 
 require_relative 'support/server'
 

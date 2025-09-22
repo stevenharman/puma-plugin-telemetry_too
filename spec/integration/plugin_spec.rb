@@ -7,7 +7,7 @@ TestTakesTooLongError = Class.new(StandardError)
 
 module Puma
   class Plugin
-    RSpec.describe Telemetry do
+    RSpec.describe TelemetryToo do
       around do |example|
         @server = nil
 
@@ -63,11 +63,11 @@ module Puma
       context 'when subset of telemetry' do
         let(:config) { 'puma_telemetry_subset' }
         let(:expected_telemetry) do
-          "{\"queue-backlog\":0,\"workers-spawned_threads\":2,\"workers-max_threads\":4,\"name\":\"Puma::Plugin::Telemetry\",\"message\":\"Publish telemetry\"}\n" # rubocop:disable Layout/LineLength
+          "{\"queue-backlog\":0,\"workers-spawned_threads\":2,\"workers-max_threads\":4,\"name\":\"Puma::Plugin::TelemetryToo\",\"message\":\"Publish telemetry\"}\n" # rubocop:disable Layout/LineLength
         end
 
         it 'logs only selected telemetry' do
-          true until (line = @server.next_line).include?('Puma::Plugin::Telemetry')
+          true until (line = @server.next_line).include?('Puma::Plugin::TelemetryToo')
           expect(line).to start_with expected_telemetry
         end
       end

@@ -7,7 +7,7 @@ threads 1, 1
 
 bind "unix://#{ENV.fetch('BIND_PATH', nil)}"
 
-plugin 'telemetry'
+plugin 'telemetry_too'
 
 Target = Struct.new(:name) do
   def call(telemetry)
@@ -15,7 +15,7 @@ Target = Struct.new(:name) do
   end
 end
 
-Puma::Plugin::Telemetry.configure do |config|
+Puma::Plugin::TelemetryToo.configure do |config|
   config.add_target Target.new('01')
   config.add_target Target.new('02')
   config.frequency = 0.2

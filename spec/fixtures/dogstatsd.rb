@@ -7,12 +7,12 @@ threads 1, 1
 
 bind "unix://#{ENV.fetch('BIND_PATH', nil)}"
 
-plugin 'telemetry'
+plugin 'telemetry_too'
 
 require 'datadog/statsd'
 require 'logger'
 
-Puma::Plugin::Telemetry.configure do |config|
+Puma::Plugin::TelemetryToo.configure do |config|
   config.add_target :dogstatsd, client: Datadog::Statsd.new(logger: Logger.new($stdout))
   config.frequency = 0.2
   config.enabled = true

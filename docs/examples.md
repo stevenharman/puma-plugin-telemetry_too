@@ -11,7 +11,7 @@ Puma configuration
 ```ruby
 plugin :telemetry
 
-Puma::Plugin::Telemetry.configure do |config|
+Puma::Plugin::TelemetryToo.configure do |config|
   config.enabled = true
   config.initial_delay = 10
 

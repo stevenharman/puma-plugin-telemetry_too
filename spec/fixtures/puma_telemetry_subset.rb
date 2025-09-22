@@ -8,9 +8,9 @@ workers 2
 
 bind "unix://#{ENV.fetch('BIND_PATH', nil)}"
 
-plugin 'telemetry'
+plugin 'telemetry_too'
 
-Puma::Plugin::Telemetry.configure do |config|
+Puma::Plugin::TelemetryToo.configure do |config|
   config.add_target :io, formatter: :json
   config.frequency = 0.2
   config.enabled = true

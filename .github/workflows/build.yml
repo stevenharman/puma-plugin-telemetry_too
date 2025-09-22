@@ -79,5 +79,5 @@ jobs:
 
       - name: Publish gem
         run: |
-          gem build puma-plugin-telemetry.gemspec
-          gem push puma-plugin-telemetry-*.gem
+          gem build puma-plugin-telemetry_too.gemspec
+          gem push puma-plugin-telemetry_too-*.gem

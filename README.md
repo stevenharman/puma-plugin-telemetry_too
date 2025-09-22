@@ -1,4 +1,10 @@
-# Puma::Plugin::Telemetry
+# Puma::Plugin::TelemetryToo
+
+NOTE: This is a fork of `puma-plugin-telemetry`, modified to:
+
+- Support Puma 7
+- Add LogTarget, with custom formatter: and transform: options
+- Warn about socket telemetry on unsupported platforms
 
 Puma plugin which should be able to handle all your metric needs regarding your webserver:
 
@@ -12,7 +18,7 @@ Puma plugin which should be able to handle all your metric needs regarding your 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem "puma-plugin-telemetry"
+gem "puma-plugin-telemetry_too"
 ```
 
 And then execute:
@@ -24,7 +30,7 @@ $ bundle install
 Or install it yourself as:
 
 ```console
-$ gem install puma-plugin-telemetry
+$ gem install puma-plugin-telemetry_too
 ```
 
 ## Usage
@@ -34,7 +40,7 @@ In your puma configuration file (i.e. `config/puma.rb` or `config/puma/<env>.rb`
 ```ruby
 plugin "telemetry"
 
-Puma::Plugin::Telemetry.configure do |config|
+Puma::Plugin::TelemetryToo.configure do |config|
   config.enabled = true
 
   # << here rest of the configuration, examples below
@@ -102,10 +108,10 @@ You can provide all the tags, namespaces, and other configuration options as alw
 
 ### All available options
 
-For detailed documentation checkout [`Puma::Plugin::Telemetry::Config`](./lib/puma/plugin/telemetry/config.rb) class.
+For detailed documentation checkout [`Puma::Plugin::TelemetryToo::Config`](./lib/puma/plugin/telemetry_too/config.rb) class.
 
 ```ruby
-Puma::Plugin::Telemetry.configure do |config|
+Puma::Plugin::TelemetryToo.configure do |config|
   config.enabled = true
   config.initial_delay = 10
   config.frequency = 30
@@ -136,7 +142,7 @@ Example configuration:
 
 ```ruby
 # in Gemfile add `require` part
-gem "puma-plugin-telemetry", require: ["rack/request_queue_time_middleware"]
+gem "puma-plugin-telemetry_too", require: ["rack/request_queue_time_middleware"]
 
 # in initializer, i.e. `request_queue_time.rb`
 Rails.application.config.middleware.insert_after(
@@ -173,7 +179,7 @@ All gem releases are manual, in order to create a new release follow:
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/babbel/puma-plugin-telemetry.
+Bug reports and pull requests are welcome on GitHub at https://github.com/stevenharman/puma-plugin-telemetry_too.
 
 ## License
 
@@ -181,4 +187,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the puma-plugin-telemetry project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/babbel/puma-plugin-telemetry/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the puma-plugin-telemetry_too project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/stevenharman/puma-plugin-telemetry_too/blob/master/CODE_OF_CONDUCT.md).

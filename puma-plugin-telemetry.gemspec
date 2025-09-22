@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative 'lib/puma/plugin/telemetry/version'
+require_relative 'lib/puma/plugin/telemetry_too/version'
 
 Gem::Specification.new do |spec| # rubocop:disable Metrics/BlockLength
-  spec.name    = 'puma-plugin-telemetry'
-  spec.version = Puma::Plugin::Telemetry::VERSION
+  spec.name    = 'puma-plugin-telemetry_too'
+  spec.version = Puma::Plugin::TelemetryToo::VERSION
   spec.authors = ['Leszek Zalewski']
   spec.email   = ['tnt@babbel.com']
 
@@ -12,6 +12,12 @@ Gem::Specification.new do |spec| # rubocop:disable Metrics/BlockLength
 
   spec.summary     = 'Puma plugin, adding ability to publish various metrics to your prefered targets.'
   spec.description = <<~TXT
+    NOTE: This is a fork of puma-plugin-telemetry, modified to:
+
+    - Support Puma 7
+    - Add LogTarget, with custom formatter: and transform: options
+    - Warn about socket telemetry on unsupported platforms
+
     Puma plugin which should be able to handle all your metric needs regarding your webserver:
 
     - ability to publish basic puma statistics (like queue backlog) to both logs and datadog
@@ -20,14 +26,14 @@ Gem::Specification.new do |spec| # rubocop:disable Metrics/BlockLength
     - ability to report requests queue time via custom rack middleware - the time request spent between being accepted by Load Balancer and start of its processing by Puma worker
   TXT
 
-  spec.homepage = 'https://github.com/babbel/puma-plugin-telemetry'
+  spec.homepage = 'https://github.com/stevenharman/puma-plugin-telemetry_too'
 
   spec.required_ruby_version = Gem::Requirement.new('>= 2.6.0')
 
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = spec.homepage
   spec.metadata['changelog_uri'] = "#{spec.homepage}/blob/main/CHANGELOG.md"
-  spec.metadata['github_repo'] = 'ssh://github.com/babbel/puma-plugin-telemetry'
+  spec.metadata['github_repo'] = 'ssh://github.com/stevenharman/puma-plugin-telemetry_too'
   spec.metadata['rubygems_mfa_required'] = 'true'
 
   # Specify which files should be added to the gem when it is released.

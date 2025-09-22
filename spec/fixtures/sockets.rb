@@ -14,12 +14,12 @@ end
 lowlevel_error_handler { |_err| [500, {}, ['error page']] }
 
 threads 1, 1
-plugin 'telemetry'
+plugin 'telemetry_too'
 
 bind "unix://#{ENV.fetch('BIND_PATH', nil)}"
 bind 'tcp://localhost:59292'
 
-Puma::Plugin::Telemetry.configure do |config|
+Puma::Plugin::TelemetryToo.configure do |config|
   # Simple `key=value` formatter
   config.add_target(:io, formatter: ->(t) { t.map { |r| r.join('=') }.join(' ') }, transform: :passthrough)
   config.frequency = 1
