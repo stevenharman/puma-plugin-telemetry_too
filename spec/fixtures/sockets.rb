@@ -26,6 +26,7 @@ Puma::Plugin::TelemetryToo.configure do |config|
   config.enabled = true
 
   # Check how `queue.backlog` from puma behaves
+  # Consider adding new _max stats: 'queue.backlog_max', 'queue.reactor_max'
   config.puma_telemetry = ['queue.backlog']
 
   # Delay first metric, so puma has time to bootup workers

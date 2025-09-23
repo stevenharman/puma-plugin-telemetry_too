@@ -12,6 +12,8 @@ module Puma
           'workers.max_threads' => :workers_max_threads,
           'workers.requests_count' => :workers_requests_count,
           'queue.backlog' => :queue_backlog,
+          'queue.backlog_max' => :queue_backlog_max,
+          'queue.reactor_max' => :queue_reactor_max,
           'queue.capacity' => :queue_capacity
         }.freeze
 
@@ -59,6 +61,14 @@ module Puma
         def queue_capacity
           @stats.fetch(:pool_capacity, 0)
         end
+
+        def queue_reactor_max
+          @stats.fetch(:reactor_max, 0)
+        end
+
+        def queue_backlog_max
+          @stats.fetch(:backlog_max, 0)
+        end
       end
 
       # Handles the case of clustered mode, where we have statistics
@@ -85,6 +95,14 @@ module Puma
 
         def queue_capacity
           sum_stat(:pool_capacity)
+        end
+
+        def queue_reactor_max
+          sum_stat(:reactor_max)
+        end
+
+        def queue_backlog_max
+          sum_stat(:backlog_max)
         end
 
         private

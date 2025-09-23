@@ -41,6 +41,8 @@ module Puma
             'workers.max_threads' => 1,
             'workers.requests_count' => 0,
             'queue.backlog' => 0,
+            'queue.backlog_max' => 0,
+            'queue.reactor_max' => 0,
             'queue.capacity' => 1
           }
         end
@@ -82,6 +84,8 @@ module Puma
             workers.max_threads:1|g
             workers.requests_count:0|g
             queue.backlog:0|g
+            queue.backlog_max:0|g
+            queue.reactor_max:0|g
             queue.capacity:1|g
           ]
         end
@@ -89,7 +93,7 @@ module Puma
         it "doesn't crash" do
           true until (line = @server.next_line).include?('DEBUG -- : Statsd')
 
-          lines = ([line.slice(/workers.*/)] + Array.new(6) { @server.next_line.strip })
+          lines = ([line.slice(/workers.*/)] + Array.new(8) { @server.next_line.strip })
 
           expect(lines).to eq(expected_telemetry)
         end
@@ -105,6 +109,10 @@ module Puma
         end
 
         it 'logs socket telemetry' do
+          if Gem.loaded_specs['puma'].version >= Gem::Version.new('7.0.0')
+            skip('Skipping on Puma >= 7; internals have change and this way of overloading the socket no longer works.')
+          end
+
           # These structs are platform specific, and not available on macOS,
           # for example. If they're undefined, then we cannot capture socket
           # telemetry. We'll skip in that case.
@@ -132,8 +140,9 @@ module Puma
 
           expect(possible_lines).to include(line)
 
-          total = line.split.sum { |kv| kv.split('=').last.to_i }
-          expect(total).to eq 6
+          queue_or_socket_backlog = line.split.reject { |kv| kv.include?('_max=') }
+          total = queue_or_socket_backlog.sum { |kv| kv.split('=').last.to_i }
+          expect(total).to eq(6)
 
           threads.each(&:join)
         end

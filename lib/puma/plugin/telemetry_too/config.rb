@@ -24,6 +24,17 @@ module Puma
           # Number of requests waiting to be processed.
           'queue.backlog',
 
+          # Maximum number of requests held in Puma's Reactor which is used for
+          # asyncronously buffering request bodies. This stat is reset on every
+          # call, so it's the maximum value observed since the last call
+          'queue.backlog_max',
+
+          # Maximum number of requests that have been fully buffered by the
+          # Reactor and placed in a ready queue, but have not yet been picked
+          # up by a server thread. This stat is reset on every call, so it's
+          # the maximum value observed since the last stat call.
+          'queue.reactor_max',
+
           # Free capacity that could be utilized, i.e. if backlog
           # is growing, and we still have capacity available, it
           # could mean that load balancing is not performing well.

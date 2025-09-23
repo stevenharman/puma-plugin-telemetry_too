@@ -22,6 +22,8 @@ module Puma
             'workers.requests_count' => 0,
             'workers.spawned_threads' => 0,
             'queue.backlog' => 0,
+            'queue.backlog_max' => 0,
+            'queue.reactor_max' => 0,
             'queue.capacity' => 0
           }
         end

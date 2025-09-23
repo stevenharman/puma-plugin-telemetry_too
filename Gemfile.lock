@@ -8,8 +8,18 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.3)
+    date (3.4.1)
+    debug (1.11.0)
+      irb (~> 1.10)
+      reline (>= 0.3.8)
     diff-lcs (1.6.2)
     dogstatsd-ruby (5.7.1)
+    erb (5.1.1)
+    io-console (0.8.1)
+    irb (1.15.2)
+      pp (>= 0.6.0)
+      rdoc (>= 4.0.0)
+      reline (>= 0.4.2)
     json (2.14.1)
     language_server-protocol (3.17.0.5)
     lint_roller (1.1.0)
@@ -18,14 +28,26 @@ GEM
     parser (3.3.9.0)
       ast (~> 2.4.1)
       racc
+    pp (0.6.3)
+      prettyprint
+    prettyprint (0.2.0)
     prism (1.5.1)
+    psych (5.2.6)
+      date
+      stringio
     puma (7.0.4)
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.2.1)
     rainbow (3.1.1)
     rake (13.3.0)
+    rdoc (6.15.0)
+      erb
+      psych (>= 4.0.0)
+      tsort
     regexp_parser (2.11.3)
+    reline (0.6.2)
+      io-console (~> 0.5)
     rspec (3.13.1)
       rspec-core (~> 3.13.0)
       rspec-expectations (~> 3.13.0)
@@ -58,6 +80,8 @@ GEM
       rubocop (>= 1.75.0, < 2.0)
       rubocop-ast (>= 1.44.0, < 2.0)
     ruby-progressbar (1.13.0)
+    stringio (3.1.7)
+    tsort (0.2.0)
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.1.0)
@@ -68,6 +92,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  debug (>= 1.0.0)
   dogstatsd-ruby
   puma-plugin-telemetry_too!
   rack

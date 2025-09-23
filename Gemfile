@@ -7,6 +7,7 @@ gemspec
 
 gem 'dogstatsd-ruby'
 
+gem 'debug', '>= 1.0.0'
 gem 'rack'
 gem 'rake', '~> 13.2'
 gem 'rspec', '~> 3.13'

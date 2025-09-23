@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'debug/prelude'
 require 'bundler/setup'
 require 'puma/plugin/telemetry_too'
 
