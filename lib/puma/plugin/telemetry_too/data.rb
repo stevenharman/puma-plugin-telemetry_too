@@ -98,7 +98,7 @@ module Puma
 
       # Pulls TCP INFO data from socket
       class SocketData
-        UNACKED_REGEXP = /\ unacked=(?<unacked>\d+)\ /.freeze
+        UNACKED_REGEXP = /\ unacked=(?<unacked>\d+)\ /
 
         def initialize(ios, parser)
           @sockets = ios.select { |io| io.respond_to?(:getsockopt) && io.is_a?(TCPSocket) }
