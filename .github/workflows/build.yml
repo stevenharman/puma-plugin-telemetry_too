@@ -45,39 +45,26 @@ jobs:
           echo "build complete"
 
   release:
-    permissions:
-      contents: write
-      id-token: write
+    needs: build
     runs-on: ubuntu-24.04
 
-    needs:
-      - build
+    permissions:
+      id-token: write # IMPORTANT: this permission is mandatory for trusted publishing
+      contents: write # IMPORTANT: this permission is required for `rake release` to push the release tag
 
-    if: github.event_name == 'create' && startsWith(github.ref, 'refs/tags/v')
+    # GitHub environment configured on RubyGems.org
+    environment: release
 
     steps:
+      # Set up
       - uses: actions/checkout@v4
-      - uses: ruby/setup-ruby@v1
-
-      - uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-region: ${{ vars.AWS_REGION }}
-          role-to-assume: ${{ vars.AWS_IAM_ROLE_ARN }}
-      - uses: aws-actions/aws-secretsmanager-get-secrets@v2
+          persist-credentials: false
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
         with:
-          secret-ids: PUMA, ${{ vars.RUBYGEMS_SECRET_ARN }}
-          parse-json-secrets: true
+          bundler-cache: true
+          ruby-version: ruby
 
-      - name: Create credentials
-        run: |
-          mkdir -p ~/.gem
-          cat << EOF > ~/.gem/credentials
-          ---
-          :rubygems_api_key: ${{ env.PUMA_RUBYGEMS_TOKEN  }}
-          EOF
-          chmod 0600 /home/runner/.gem/credentials
-
-      - name: Publish gem
-        run: |
-          gem build puma-plugin-telemetry_too.gemspec
-          gem push puma-plugin-telemetry_too-*.gem
+      # Push new gem version to RubyGems.org
+      - uses: rubygems/release-gem@v1
