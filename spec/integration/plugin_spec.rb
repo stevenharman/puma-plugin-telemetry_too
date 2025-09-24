@@ -123,7 +123,7 @@ module Puma
           possible_lines = ['queue.backlog=1 sockets.backlog=5',
                             'queue.backlog=0 sockets.backlog=6']
 
-          expect(possible_lines.include?(line)).to eq(true)
+          expect(possible_lines).to include(line)
 
           total = line.split.sum { |kv| kv.split('=').last.to_i }
           expect(total).to eq 6
