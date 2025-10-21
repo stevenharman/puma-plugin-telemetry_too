@@ -1,9 +1,10 @@
-name: build
+---
+name: Build and Test
 
-on: [push, create, pull_request]
+on: [push, pull_request]
 
 jobs:
-  build_matrix:
+  build:
     strategy:
       matrix:
         os:
@@ -33,36 +34,3 @@ jobs:
       - name: Run tests
         run: |
           bundle exec rspec
-
-  build:
-    needs: [build_matrix]
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Dummy for branch status checks
-        run: |
-          echo "build complete"
-
-  release:
-    needs: build
-    runs-on: ubuntu-24.04
-
-    permissions:
-      id-token: write # IMPORTANT: this permission is mandatory for trusted publishing
-      contents: write # IMPORTANT: this permission is required for `rake release` to push the release tag
-
-    # GitHub environment configured on RubyGems.org
-    environment: release
-
-    steps:
-      # Set up
-      - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
-          ruby-version: ruby
-
-      # Push new gem version to RubyGems.org
-      - uses: rubygems/release-gem@v1

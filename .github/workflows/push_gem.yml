@@ -1,0 +1,34 @@
+---
+name: Push to RubyGems.org
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # Trigger on version tags like v1.2.3
+
+jobs:
+  push:
+    if: github.repository == 'stevenharman/puma-plugin-telemetry_too'
+    runs-on: ubuntu-latest
+
+    # GitHub environment configured on RubyGems.org
+    environment: 
+      name: release
+      url: https://rubygems.org/gems/puma-plugin-telemetry_too
+
+    permissions:
+      contents: write # IMPORTANT: this permission is required for `rake release` to push the release tag
+      id-token: write # IMPORTANT: this permission is mandatory for trusted publishing
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          ruby-version: ruby
+
+      # Push new gem version to RubyGems.org
+      - uses: rubygems/release-gem@v1
