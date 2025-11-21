@@ -38,7 +38,7 @@ $ gem install puma-plugin-telemetry_too
 In your puma configuration file (i.e. `config/puma.rb` or `config/puma/<env>.rb`):
 
 ```ruby
-plugin "telemetry"
+plugin "telemetry_too"
 
 Puma::Plugin::TelemetryToo.configure do |config|
   config.enabled = true
