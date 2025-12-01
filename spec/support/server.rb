@@ -8,7 +8,7 @@ class Server
     @lines = []
   end
 
-  def start
+  def start # rubocop:disable Naming/PredicateMethod
     @server = IO.popen("BIND_PATH=#{bind_path} bundle exec puma -C spec/fixtures/#{@config}.rb -v --debug", 'r')
     @server_pid = @server.pid
 
