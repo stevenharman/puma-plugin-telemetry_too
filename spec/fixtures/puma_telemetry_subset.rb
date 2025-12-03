@@ -6,7 +6,7 @@ lowlevel_error_handler { |_err| [500, {}, ['error page']] }
 threads 1, 2
 workers 2
 
-bind "unix://#{ENV.fetch('BIND_PATH', nil)}"
+bind "unix://#{ENV.fetch('BIND_PATH')}"
 
 plugin 'telemetry_too'
 

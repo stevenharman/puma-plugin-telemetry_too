@@ -43,7 +43,7 @@ lowlevel_error_handler { |_err| [500, {}, ['error page']] }
 
 # Configure Puma and load the plugin
 threads(1, 1)
-bind("unix://#{ENV.fetch('BIND_PATH', nil)}")
+bind("unix://#{ENV.fetch('BIND_PATH')}")
 plugin('telemetry_too')
 
 Puma::Plugin::TelemetryToo.configure do |config|
