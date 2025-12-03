@@ -29,8 +29,8 @@ Puma::Plugin::TelemetryToo.configure do |config|
   # Consider adding new _max stats: 'queue.backlog_max', 'queue.reactor_max'
   config.puma_telemetry = ['queue.backlog']
 
-  # Delay first metric, so puma has time to bootup workers
-  config.initial_delay = 2
+  # Give Puma just enough time to emit the "Ctrl-C" line so we consider the server "started"
+  config.initial_delay = 0.01
 
   config.socket_telemetry!
 end

@@ -16,5 +16,6 @@ Puma::Plugin::TelemetryToo.configure do |config|
   config.add_target :dogstatsd, client: Datadog::Statsd.new(logger: Logger.new($stdout))
   config.frequency = 0.2
   config.enabled = true
-  config.initial_delay = 2
+  # Give Puma just enough time to emit the "Ctrl-C" line so we consider the server "started"
+  config.initial_delay = 0.01
 end

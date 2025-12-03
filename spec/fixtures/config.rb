@@ -20,5 +20,6 @@ Puma::Plugin::TelemetryToo.configure do |config|
   config.add_target Target.new('02')
   config.frequency = 0.2
   config.enabled = true
-  config.initial_delay = 2
+  # Give Puma just enough time to emit the "Ctrl-C" line so we consider the server "started"
+  config.initial_delay = 0.01
 end

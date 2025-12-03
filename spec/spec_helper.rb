@@ -16,6 +16,12 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = :random
 
+  # Seed global randomization in this process using the `--seed` CLI option.
+  # Setting this allows you to use `--seed` to deterministically reproduce
+  # test failures related to randomization by passing the same `--seed` value
+  # as the one that triggered the failure.
+  Kernel.srand config.seed
+
   # Disable RSpec exposing methods globally on `Module` and `main`
   config.disable_monkey_patching!
 
@@ -25,5 +31,10 @@ RSpec.configure do |config|
 
   config.mock_with :rspec do |mocks|
     mocks.verify_partial_doubles = true
+  end
+
+  # Do not abort on the first failure of an expectation within an example.
+  config.define_derived_metadata do |meta|
+    meta[:aggregate_failures] = true
   end
 end

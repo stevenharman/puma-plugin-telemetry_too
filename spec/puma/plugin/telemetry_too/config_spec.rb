@@ -20,12 +20,8 @@ module Puma
 
         describe '#add_target' do
           context 'when built in: IO' do
-            it 'adds new target' do
-              expect { config.add_target(:io) }.to change(config.targets, :size).by(1)
-            end
-
             it 'adds new IO Target' do
-              config.add_target(:io)
+              expect { config.add_target(:io) }.to change(config.targets, :size).by(1)
               expect(config.targets.first).to be_a(TelemetryToo::Targets::IOTarget)
             end
           end
@@ -33,14 +29,8 @@ module Puma
           context 'when built in: Datadog' do
             let(:client) { instance_double('statsd') }
 
-            it 'adds new target' do
-              expect do
-                config.add_target(:dogstatsd, client: client)
-              end.to change(config.targets, :size).by(1)
-            end
-
-            it 'adds new Datadog Target' do
-              config.add_target(:dogstatsd, client: client)
+            it 'adds new Datadog target' do
+              expect { config.add_target(:dogstatsd, client: client) }.to change(config.targets, :size).by(1)
               expect(config.targets.first).to be_a(TelemetryToo::Targets::DatadogStatsdTarget)
             end
           end
@@ -48,14 +38,8 @@ module Puma
           context 'when custom' do
             let(:target) { proc { |telemetry| puts telemetry.inspect } }
 
-            it 'adds new target' do
-              expect do
-                config.add_target(target)
-              end.to change(config.targets, :size).by(1)
-            end
-
             it 'adds new Custom Target' do
-              config.add_target(target)
+              expect { config.add_target(target) }.to change(config.targets, :size).by(1)
               expect(config.targets.first).to be_a(Proc)
             end
           end
