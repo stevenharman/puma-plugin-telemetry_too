@@ -35,6 +35,20 @@ module Puma
             end
           end
 
+          context 'when built in: OpenTelemetry' do
+            let(:otel_api) { class_double('OpenTelemetry', meter_provider: otel_api_meter_provider) }
+            let(:otel_api_meter_provider) { instance_double('OpenTelemetry::Metrics::MeterProvider', meter: :ok) }
+
+            before do
+              stub_const('::OpenTelemetry', otel_api)
+            end
+
+            it 'adds new OpenTelemetryTarget' do
+              expect { config.add_target(:open_telemetry) }.to change(config.targets, :size).by(1)
+              expect(config.targets.first).to be_a(TelemetryToo::Targets::OpenTelemetryTarget)
+            end
+          end
+
           context 'when custom' do
             let(:target) { proc { |telemetry| puts telemetry.inspect } }
 

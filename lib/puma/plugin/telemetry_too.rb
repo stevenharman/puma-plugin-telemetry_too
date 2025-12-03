@@ -7,6 +7,7 @@ require 'puma/plugin/telemetry_too/version'
 require 'puma/plugin/telemetry_too/data'
 require 'puma/plugin/telemetry_too/targets/datadog_statsd_target'
 require 'puma/plugin/telemetry_too/targets/io_target'
+require 'puma/plugin/telemetry_too/targets/open_telemetry_target'
 require 'puma/plugin/telemetry_too/targets/log_target'
 require 'puma/plugin/telemetry_too/config'
 

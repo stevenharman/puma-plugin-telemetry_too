@@ -9,7 +9,10 @@ class Server
   end
 
   def start
-    @server = IO.popen("BIND_PATH=#{bind_path} bundle exec puma -C spec/fixtures/#{@config}.rb -v --debug", 'r')
+    env = { 'BIND_PATH' => bind_path, 'OTEL_METRICS_EXPORTER' => 'none' }
+    cmd = "bundle exec puma -C spec/fixtures/#{@config}.rb -v --debug"
+
+    @server = IO.popen(env, cmd, 'r')
     @server_pid = @server.pid
 
     true until next_line.include?('PID: ')

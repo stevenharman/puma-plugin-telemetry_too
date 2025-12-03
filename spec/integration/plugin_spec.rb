@@ -99,6 +99,40 @@ module Puma
         end
       end
 
+      context 'when open_telemetry target' do
+        let(:config) { 'open_telemetry' }
+        let(:expected_telemetry) do
+          {
+            'workers.booted' => 1,
+            'workers.total' => 1,
+            'workers.spawned_threads' => 1,
+            'workers.max_threads' => 1,
+            'workers.requests_count' => 0,
+            'queue.backlog' => 0,
+            'queue.backlog_max' => 0,
+            'queue.reactor_max' => 0,
+            'queue.capacity' => 1
+          }
+        end
+
+        it "doesn't crash" do
+          matched_telemetry = {}
+
+          while (line = @server.next_line)
+            next unless line.include?('OpenTelemetry::SDK::Metrics::State::MetricData')
+
+            metric = JSON.parse(line)
+            name = metric.fetch('name')
+            value = metric.fetch('value')
+            matched_telemetry[name] = value
+
+            break if matched_telemetry.keys.size == expected_telemetry.keys.size
+          end
+
+          expect(matched_telemetry).to eq(expected_telemetry)
+        end
+      end
+
       context 'when sockets telemetry' do
         let(:config) { 'sockets' }
 

@@ -44,6 +44,7 @@ module Puma
         TARGETS = {
           dogstatsd: TelemetryToo::Targets::DatadogStatsdTarget,
           io: TelemetryToo::Targets::IOTarget,
+          open_telemetry: TelemetryToo::Targets::OpenTelemetryTarget,
           log: TelemetryToo::Targets::LogTarget
         }.freeze
 

@@ -98,13 +98,29 @@ The `LogTarget` defaults to `formatter: :logfmt`, and `transform: :passthrough`.
 
 A target for the Datadog StatsD client, that uses batch operation to publish metrics.
 
-**NOTE** Be sure to have the `dogstatsd` gem installed.
-
 ```ruby
 config.add_target(:dogstatsd, client: Datadog::Statsd.new)
 ```
 
 You can provide all the tags, namespaces, and other configuration options as always to `Datadog::Statsd.new` method.
+
+### OpenTelemetry target
+
+A target for the OpenTelemetry Metrics API, which uses batch operations to publish metrics.
+
+```ruby
+config.add_target :open_telemetry, meter_provider: OpenTelemetry.meter_provider
+```
+
+This target supports the following options:
+
+| Option         | Description                                                          | Default                        | Required |
+|----------------|----------------------------------------------------------------------|--------------------------------|----------|
+| meter_provider | An instance of `OpenTelemetry::Metrics::MeterProvider`               | `OpenTelemetry.meter_provider` | No       |
+| force_flush    | Force-flush metrics after each call. This can be expensive!          | `false`                        | No       |
+| prefix         | Metric name prefix.<br>e.g. `prefix: "puma"` → `puma.workers.booted` | `nil`                          | No       |
+| suffix         | Metric name suffix.<br>e.g. `suffix: "v1"` → `workers.booted.v1`     | `nil`                          | No       |
+| attributes     | Attributes to be included with the metric                            | `{}`                           | No       |
 
 ### All available options
 
