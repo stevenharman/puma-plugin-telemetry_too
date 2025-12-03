@@ -8,7 +8,7 @@ class Server
     @lines = []
   end
 
-  def start # rubocop:disable Naming/PredicateMethod
+  def start
     @server = IO.popen("BIND_PATH=#{bind_path} bundle exec puma -C spec/fixtures/#{@config}.rb -v --debug", 'r')
     @server_pid = @server.pid
 
@@ -16,6 +16,8 @@ class Server
     @puma_pid = @lines.last.split(': ').last.to_i
 
     true until next_line.include?('Ctrl-C')
+
+    :ok
   end
 
   def stop
