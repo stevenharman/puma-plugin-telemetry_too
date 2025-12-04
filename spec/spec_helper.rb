@@ -5,6 +5,7 @@ require 'bundler/setup'
 require 'puma/plugin/telemetry_too'
 
 require_relative 'support/server'
+require_relative 'support/otel_metrics_helpers'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -37,4 +38,12 @@ RSpec.configure do |config|
   config.define_derived_metadata do |meta|
     meta[:aggregate_failures] = true
   end
+
+  config.around(:each, :otel_metrics) do |example|
+    reset_metrics_sdk
+    example.run
+    reset_metrics_sdk
+  end
+
+  config.include Helpers::OtelMetrics, otel_metrics: true
 end
