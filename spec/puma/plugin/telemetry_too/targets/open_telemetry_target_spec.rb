@@ -35,11 +35,18 @@ module Puma
             target.call('queue.capacity' => 3)
 
             metric = metric_exporter.collect.first
-
             expect(metric.name).to eq('queue.capacity')
             expect(metric.data_points.last).to have_attributes(
               value: 3, attributes: { env: 'production', region: 'us-east' }
             )
+          end
+
+          it 'handles unknown metric names gracefully' do
+            target.call('futurama.duration' => 42)
+
+            metric = metric_exporter.collect.first
+            expect(metric).to have_attributes(name: 'futurama.duration', unit: '1', description: '')
+            expect(metric.data_points.last.value).to eq(42)
           end
 
           context 'when prefix/suffix are specified' do

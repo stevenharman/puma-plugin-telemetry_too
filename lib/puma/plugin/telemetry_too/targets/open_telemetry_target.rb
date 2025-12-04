@@ -51,9 +51,9 @@ module Puma
           attr_reader :meter_provider, :meter, :prefix, :suffix, :force_flush, :attributes, :instruments, :mutex
 
           def create_gauge(metric)
-            meta = META_DATA.fetch(metric, MetaData.new(unit: 1, description: 'unknown metric'))
+            meta = META_DATA.fetch(metric, MetaData.new(unit: 1, description: nil))
             meter.create_gauge([prefix, metric, suffix].compact.join('.'),
-                               unit: meta.unit, description: meta.description)
+                               unit: String(meta.unit), description: String(meta.description))
           end
 
           def force_flush?
@@ -73,7 +73,8 @@ module Puma
             'queue.backlog' => MetaData[unit: '{request}', description: 'Requests that are waiting for an available thread to be available.'],
             'queue.backlog_max' => MetaData[unit: '{request}', description: "Maximum number of requests that have been fully buffered by the reactor and placed in a ready queue, but have not yet been picked up by a server thread. This stat is reset on every call, so it's the maximum value observed since the last stat call."],
             'queue.reactor_max' => MetaData[unit: '{request}', description: "Maximum observed number of requests held in Puma's reactor. This stat is reset on every call, so it's the maximum value observed since the last stat call."],
-            'queue.capacity' => MetaData[unit: '{thread}', description: 'Number of Threads waiting to receive work.']
+            'queue.capacity' => MetaData[unit: '{thread}', description: 'Number of Threads waiting to receive work.'],
+            'sockets.backlog' => MetaData[unit: '{request}', description: 'Number of unacknowledged connections in the Sockets Puma is bound to.']
 
           }.freeze
           private_constant :META_DATA
