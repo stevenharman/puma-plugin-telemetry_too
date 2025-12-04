@@ -5,7 +5,7 @@ module Puma
     module TelemetryToo
       module Targets
         RSpec.describe OpenTelemetryTarget, :otel_metrics do
-          subject(:target) { described_class.new(meter_provider:) }
+          subject(:target) { described_class.new(meter_provider:, prefix: nil) }
           let(:meter_provider) { ::OpenTelemetry.meter_provider }
           let(:metric_exporter) { OpenTelemetry::SDK::Metrics::Export::InMemoryMetricPullExporter.new }
 
@@ -35,7 +35,7 @@ module Puma
             target.call('queue.capacity' => 3)
 
             metric = metric_exporter.collect.first
-            expect(metric.name).to eq('queue.capacity')
+            expect(metric.name).to eq('puma.queue.capacity')
             expect(metric.data_points.last).to have_attributes(
               value: 3, attributes: { env: 'production', region: 'us-east' }
             )
@@ -47,6 +47,15 @@ module Puma
             metric = metric_exporter.collect.first
             expect(metric).to have_attributes(name: 'futurama.duration', unit: '1', description: '')
             expect(metric.data_points.last.value).to eq(42)
+          end
+
+          it 'defaults prefix to "puma"' do
+            target = described_class.new(meter_provider:)
+            target.call('sockets.backlog' => 2)
+
+            metric = metric_exporter.collect.first
+            expect(metric.name).to eq('puma.sockets.backlog')
+            expect(metric.data_points.last.value).to eq(2)
           end
 
           context 'when prefix/suffix are specified' do
@@ -64,7 +73,7 @@ module Puma
               target.call('workers.total' => 10)
 
               metric = metric_exporter.collect.first
-              expect(metric.name).to eq('workers.total.v42')
+              expect(metric.name).to eq('puma.workers.total.v42')
               expect(metric.data_points.last.value).to eq(10)
             end
 

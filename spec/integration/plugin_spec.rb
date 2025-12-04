@@ -103,15 +103,15 @@ module Puma
         let(:config) { 'open_telemetry' }
         let(:expected_telemetry) do
           {
-            'workers.booted' => 1,
-            'workers.total' => 1,
-            'workers.spawned_threads' => 1,
-            'workers.max_threads' => 1,
-            'workers.requests_count' => 0,
-            'queue.backlog' => 0,
-            'queue.backlog_max' => 0,
-            'queue.reactor_max' => 0,
-            'queue.capacity' => 1
+            'puma.workers.booted' => 1,
+            'puma.workers.total' => 1,
+            'puma.workers.spawned_threads' => 1,
+            'puma.workers.max_threads' => 1,
+            'puma.workers.requests_count' => 0,
+            'puma.queue.backlog' => 0,
+            'puma.queue.backlog_max' => 0,
+            'puma.queue.reactor_max' => 0,
+            'puma.queue.capacity' => 1
           }
         end
 

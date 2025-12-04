@@ -15,7 +15,7 @@ Puma plugin which should be able to handle all your metric needs regarding your 
 
 ## Install
 
-Add this line to your application's Gemfile:
+Add this line to your application's `Gemfile`:
 
 ```ruby
 gem "puma-plugin-telemetry_too"
@@ -114,13 +114,13 @@ config.add_target :open_telemetry, meter_provider: OpenTelemetry.meter_provider
 
 This target supports the following options:
 
-| Option         | Description                                                          | Default                        | Required |
-|----------------|----------------------------------------------------------------------|--------------------------------|----------|
-| meter_provider | An instance of `OpenTelemetry::Metrics::MeterProvider`               | `OpenTelemetry.meter_provider` | No       |
-| force_flush    | Force-flush metrics after each call. This can be expensive!          | `false`                        | No       |
-| prefix         | Metric name prefix.<br>e.g. `prefix: "puma"` → `puma.workers.booted` | `nil`                          | No       |
-| suffix         | Metric name suffix.<br>e.g. `suffix: "v1"` → `workers.booted.v1`     | `nil`                          | No       |
-| attributes     | Attributes to be included with the metric                            | `{}`                           | No       |
+| Option         | Description                                                           | Default                        | Required |
+|----------------|-----------------------------------------------------------------------|--------------------------------|----------|
+| meter_provider | An instance of `OpenTelemetry::Metrics::MeterProvider`                | `OpenTelemetry.meter_provider` | No       |
+| force_flush    | Force-flush metrics after each call. <i>This can be expensive!</i>    | `false`                        | No       |
+| prefix         | Metric name prefix.<br>e.g. `prefix: "app"` → `app.workers.booted`    | `puma`                         | No       |
+| suffix         | Metric name suffix.<br>e.g. `suffix: "v1"` → `puma.workers.booted.v1` | `nil`                          | No       |
+| attributes     | Attributes to be included with the metric                             | `{}`                           | No       |
 
 ### All available options
 
@@ -146,8 +146,8 @@ Target is a simple object that implements `call` methods that accepts `telemetry
 Just be mindful that if the API takes long to call, it will slow down frequency with which telemetry will get reported.
 
 ```ruby
-  # Example key/value log to `STDOUT` target
-  config.add_target ->(telemetry) { puts telemetry.map { |k, v| "#{k}=#{v.inspect}" }.join(" ") }
+# Example key/value log to `STDOUT` target
+config.add_target ->(telemetry) { puts telemetry.map { |k, v| "#{k}=#{v.inspect}" }.join(" ") }
 ```
 
 ## Extra middleware

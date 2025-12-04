@@ -18,9 +18,9 @@ module Puma
         #
         #     require 'opentelemetry-metrics-sdk'
         #
-        #     OpenTelemetryTarget.new(meter_provider: OpenTelemetry.meter_provider, prefix: 'puma')
+        #     OpenTelemetryTarget.new(meter_provider: OpenTelemetry.meter_provider, prefix: 'webserver')
         class OpenTelemetryTarget
-          def initialize(meter_provider: ::OpenTelemetry.meter_provider, prefix: nil, suffix: nil,
+          def initialize(meter_provider: ::OpenTelemetry.meter_provider, prefix: 'puma', suffix: nil,
                          force_flush: false, attributes: {})
             @meter_provider = meter_provider
             @meter = meter_provider.meter('puma.telemetry')
@@ -70,7 +70,7 @@ module Puma
             'workers.spawned_threads' => MetaData[unit: '{thread}', description: 'Number of spawned threads across all Puma workers.'],
             'workers.max_threads' => MetaData[unit: '{thread}', description: 'Maximum number of threads Puma is configured to spawn, across all workers.'],
             'workers.requests_count' => MetaData[unit: '{request}', description: 'Total number of requests handled by all Puma workers, since start.'],
-            'queue.backlog' => MetaData[unit: '{request}', description: 'Requests that are waiting for an available thread to be available.'],
+            'queue.backlog' => MetaData[unit: '{request}', description: 'Requests that are waiting for an available thread.'],
             'queue.backlog_max' => MetaData[unit: '{request}', description: "Maximum number of requests that have been fully buffered by the reactor and placed in a ready queue, but have not yet been picked up by a server thread. This stat is reset on every call, so it's the maximum value observed since the last stat call."],
             'queue.reactor_max' => MetaData[unit: '{request}', description: "Maximum observed number of requests held in Puma's reactor. This stat is reset on every call, so it's the maximum value observed since the last stat call."],
             'queue.capacity' => MetaData[unit: '{thread}', description: 'Number of Threads waiting to receive work.'],
