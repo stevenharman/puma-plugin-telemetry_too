@@ -51,7 +51,7 @@ module Puma
           attr_reader :meter_provider, :meter, :prefix, :suffix, :force_flush, :attributes, :instruments, :mutex
 
           def create_gauge(metric)
-            meta = META_DATA.fetch(metric, MetaData.new(unit: 1, description: nil))
+            meta = METADATA.fetch(metric, UNKNOWN_METADATA)
             meter.create_gauge([prefix, metric, suffix].compact.join('.'),
                                unit: String(meta.unit), description: String(meta.description))
           end
@@ -60,25 +60,32 @@ module Puma
             !!force_flush
           end
 
-          MetaData = Data.define(:unit, :description)
-          private_constant :MetaData
+          Metadata = Data.define(:unit, :description) do
+            def initialize(unit:, description: '')
+              super
+            end
+          end
+          private_constant :Metadata
 
           # rubocop:disable Metrics/LineLength
-          META_DATA = {
-            'workers.booted' => MetaData[unit: '{process}', description: 'Number of booted Puma workers (processes).'],
-            'workers.total' => MetaData[unit: '{process}', description: 'Total number of Puma workers (processes).'],
-            'workers.spawned_threads' => MetaData[unit: '{thread}', description: 'Number of spawned threads across all Puma workers.'],
-            'workers.max_threads' => MetaData[unit: '{thread}', description: 'Maximum number of threads Puma is configured to spawn, across all workers.'],
-            'workers.requests_count' => MetaData[unit: '{request}', description: 'Total number of requests handled by all Puma workers, since start.'],
-            'queue.backlog' => MetaData[unit: '{request}', description: 'Requests that are waiting for an available thread.'],
-            'queue.backlog_max' => MetaData[unit: '{request}', description: "Maximum number of requests that have been fully buffered by the reactor and placed in a ready queue, but have not yet been picked up by a server thread. This stat is reset on every call, so it's the maximum value observed since the last stat call."],
-            'queue.reactor_max' => MetaData[unit: '{request}', description: "Maximum observed number of requests held in Puma's reactor. This stat is reset on every call, so it's the maximum value observed since the last stat call."],
-            'queue.capacity' => MetaData[unit: '{thread}', description: 'Number of Threads waiting to receive work.'],
-            'sockets.backlog' => MetaData[unit: '{request}', description: 'Number of unacknowledged connections in the Sockets Puma is bound to.']
+          METADATA = {
+            'workers.booted' => Metadata[unit: '{process}', description: 'Number of booted Puma workers (processes).'],
+            'workers.total' => Metadata[unit: '{process}', description: 'Total number of Puma workers (processes).'],
+            'workers.spawned_threads' => Metadata[unit: '{thread}', description: 'Number of spawned threads across all Puma workers.'],
+            'workers.max_threads' => Metadata[unit: '{thread}', description: 'Maximum number of threads Puma is configured to spawn, across all workers.'],
+            'workers.requests_count' => Metadata[unit: '{request}', description: 'Total number of requests handled by all Puma workers, since start.'],
+            'queue.backlog' => Metadata[unit: '{request}', description: 'Requests that are waiting for an available thread.'],
+            'queue.backlog_max' => Metadata[unit: '{request}', description: "Maximum number of requests that have been fully buffered by the reactor and placed in a ready queue, but have not yet been picked up by a server thread. This stat is reset on every call, so it's the maximum value observed since the last stat call."],
+            'queue.reactor_max' => Metadata[unit: '{request}', description: "Maximum observed number of requests held in Puma's reactor. This stat is reset on every call, so it's the maximum value observed since the last stat call."],
+            'queue.capacity' => Metadata[unit: '{thread}', description: 'Number of Threads waiting to receive work.'],
+            'sockets.backlog' => Metadata[unit: '{request}', description: 'Number of unacknowledged connections in the Sockets Puma is bound to.']
 
           }.freeze
-          private_constant :META_DATA
+          private_constant :METADATA
           # rubocop:enable Metrics/LineLength
+
+          UNKNOWN_METADATA = Metadata.new(unit: '1')
+          private_constant :UNKNOWN_METADATA
         end
       end
     end
