@@ -4,6 +4,7 @@ NOTE: This is a fork of `puma-plugin-telemetry`, modified to:
 
 - Support Puma 7
 - Add `LogTarget`, with custom `formatter:` and `transform:` options
+- Add `OpenTelemetry` target
 - Warn about socket telemetry on unsupported platforms
 
 Puma plugin which should be able to handle all your metric needs regarding your webserver:
