@@ -7,7 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] TBD
 
-### Changed TBD
+## [0.0.3] 2026-08-14
+
+### Changed
+- Support for Puma 8
+
+## [0.0.2] 2025-12-05
+
+### Changed 
 - Forked and renamed Gem to `puma-plugin-telemetry_too`
 
 ### Added
