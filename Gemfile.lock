@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     puma-plugin-telemetry_too (0.0.2)
-      puma (< 8)
+      puma (< 9)
 
 GEM
   remote: https://rubygems.org/
@@ -81,7 +81,7 @@ GEM
     psych (5.2.6)
       date
       stringio
-    puma (7.1.0)
+    puma (8.0.2)
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.2.4)
@@ -152,4 +152,4 @@ DEPENDENCIES
   rubocop-performance (~> 1.25)
 
 BUNDLED WITH
-   2.4.22
+  4.0.18
